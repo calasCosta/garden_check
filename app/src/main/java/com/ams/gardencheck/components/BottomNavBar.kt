@@ -1,9 +1,7 @@
 package com.ams.gardencheck.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
@@ -14,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ams.gardencheck.R
 
 @Composable
 fun MainBottomNavigation(nav: NavController){
@@ -37,7 +37,13 @@ fun MainBottomNavigation(nav: NavController){
             selected = currentRoute == routeFirst,
             onClick = {nav.navigate(routeFirst)},
             label = {Text(text = "Home")},
-            icon = {Icon(imageVector = Icons.Default.Home, contentDescription = "")},
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.icons8_home_50),
+                    contentDescription = "Home"
+                )
+            },
+
             colors = defaultColors
         )
 
@@ -46,7 +52,12 @@ fun MainBottomNavigation(nav: NavController){
             selected = currentRoute == routeSecond,
             onClick = {nav.navigate(routeSecond)},
             label = {Text(text = "Scan")},
-            icon = {Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "")},
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.icons8_camera_50),
+                    contentDescription = "Camera"
+                )
+            },
             colors = defaultColors
         )
 
