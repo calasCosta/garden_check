@@ -1,4 +1,4 @@
-package com.ams.gardencheck.data.tables
+package com.ams.gardencheck.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

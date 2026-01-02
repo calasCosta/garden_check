@@ -1,11 +1,11 @@
-package com.rjcr.library.data
+package com.ams.gardencheck.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.ams.gardencheck.data.tables.User
+import com.ams.gardencheck.data.entities.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao

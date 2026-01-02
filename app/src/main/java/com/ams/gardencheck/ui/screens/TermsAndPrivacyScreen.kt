@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProfileScreen(
+fun TermsAndPrivacyScreen(
     modifier: Modifier = Modifier,
-    onLogoutClicked: ()-> Unit
+    onBackClicked: ()-> Unit
 ){
     Column(
         modifier = modifier
@@ -25,12 +25,12 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Profile",
+            text = "Terms And Privacy",
             fontSize = 32.sp,
         )
 
-        Button(onClick = onLogoutClicked) {
-            Text("Log out")
+        Button(onClick = onBackClicked) {
+            Text("Go Back")
         }
     }
 }
