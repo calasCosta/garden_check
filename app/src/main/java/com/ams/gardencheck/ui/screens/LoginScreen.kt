@@ -1,5 +1,6 @@
 package com.ams.gardencheck.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,12 +39,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    onLoginSuccess: () -> Unit,
+    onGoogleSignInClicked: () -> Unit,
+    isLoading: Boolean = false,
     onTermsClicked: () -> Unit
 ){
-    var isLoading by remember { mutableStateOf<Boolean>(false) }
-    val scope = rememberCoroutineScope()
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -57,28 +57,27 @@ fun LoginScreen(
             modifier = Modifier.size(80.dp),
             tint = Color.Unspecified
         )
+
         // Title
         Text(
             text = "GardenCheck",
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
             color = Color.Black,
-            modifier = Modifier.padding(bottom = 200.dp)
+            modifier = Modifier.padding(10.dp)
         )
+
+        Spacer(modifier = Modifier.height(400.dp))
 
         // "Continue with Google" button
         Button(
             onClick = {
-                isLoading = true
-                // Use the coroutine scope to launch the async operation
-                scope.launch {
-                    delay(1500) // Simulate network delay
-                    isLoading = false
-                    onLoginSuccess() // Call this AFTER successful login
+                Log.d("GOOGLE_AUTH", "LoginScreen Google button clicked")
+                if (!isLoading) {
+                    onGoogleSignInClicked()
                 }
             },
             enabled = !isLoading,
-
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -95,24 +94,32 @@ fun LoginScreen(
 
             border = BorderStroke(1.dp, Color(0xFFEEEEEE))
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Google icon
-                Icon(
-                    painter = painterResource(id = R.drawable.icons8_google_48),
-                    contentDescription = "Google",
+            if (isLoading) {
+                CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    tint = Color.Unspecified
+                    strokeWidth = 2.dp,
+                    color = Color.Black
                 )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = "Continue with Google",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal
-                )
+            } else {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Google icon
+                    Icon(
+                        painter = painterResource(id = R.drawable.icons8_google_48),
+                        contentDescription = "Google",
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.Unspecified
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "Continue with Google",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
             }
         }
 
