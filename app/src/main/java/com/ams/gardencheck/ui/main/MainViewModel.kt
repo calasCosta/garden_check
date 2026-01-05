@@ -19,6 +19,60 @@ class MainViewModel(private val dao: PlantDiseaseDao, private val daoU: UserDao,
     private val _mainViewState = MutableStateFlow(MainViewState())
     val mainViewState: StateFlow<MainViewState> = _mainViewState.asStateFlow()
 
+    // 1 static info
+    private var allStaticDiseases = listOf(
+        PlantDisease(diseaseTitle = "Powdery Mildew", imagePath = "ic_logo", confidence = "90", description = "...", createdDate = "Today"),
+        PlantDisease(diseaseTitle = "Leaf Rust", imagePath = "ic_logo", confidence = "85", description = "...", createdDate = "Yesterday"),
+        PlantDisease(diseaseTitle = "Blight", imagePath = "ic_logo", confidence = "72", description = "...", createdDate = "Jan 05, 2026")
+    )
+
+    // 2 si
+    init {
+        _mainViewState.update { it.copy(plantDiseases = allStaticDiseases) }
+    }
+
+    // 3 si
+    fun onSearchTextChanged(newText: String) {
+        _mainViewState.update { it.copy(searchText = newText) }
+        val filtered = if (newText.isEmpty()) {
+            allStaticDiseases
+        } else {
+            allStaticDiseases.filter { it.diseaseTitle.contains(newText, ignoreCase = true) }
+        }
+        _mainViewState.update { it.copy(plantDiseases = filtered) }
+    }
+
+    // 2 di
+    private var allPlantDiseases = listOf<PlantDisease>()
+
+    // 1 dinamic info
+    /*init {
+        getPlantDiseases()
+    }*/
+
+    fun getPlantDiseases() {
+        viewModelScope.launch {
+            dao.getPlantDiseases().collect { data ->
+                allPlantDiseases = data // Atualiza o cache original
+                // Aplica o filtro atual à nova lista recebida
+                filterDiseases(_mainViewState.value.searchText)
+            }
+        }
+    }
+
+    private fun filterDiseases(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            allPlantDiseases
+        } else {
+            allPlantDiseases.filter {
+                it.diseaseTitle.contains(query, ignoreCase = true)
+            }
+        }
+
+        // Atualiza apenas a lista que a UI observa
+        _mainViewState.update { it.copy(plantDiseases = filteredList) }
+    }
+
     // começo de PlantDisease
     fun savePlantDisease(plantDisease: PlantDisease){
         viewModelScope.launch {
@@ -29,13 +83,13 @@ class MainViewModel(private val dao: PlantDiseaseDao, private val daoU: UserDao,
         }
     }
 
-    fun getPlantDiseases(){
+    /*fun getPlantDiseases(){
         viewModelScope.launch {
             dao.getPlantDiseases().collect{ data ->
                 _mainViewState.update { it.copy(plantDiseases = data) }
             }
         }
-    }
+    }*/
 
     fun deletePlantDisease(plantDisease: PlantDisease): Boolean{
         viewModelScope.launch {
@@ -176,8 +230,5 @@ class MainViewModel(private val dao: PlantDiseaseDao, private val daoU: UserDao,
     }*/
 
     // Dentro do ViewModel
-    fun onSearchTextChanged(newText: String) {
-        _mainViewState.value = _mainViewState.value.copy(searchText = newText)
-        // Aqui você pode disparar a lógica de filtro da lista
-    }
+
 }

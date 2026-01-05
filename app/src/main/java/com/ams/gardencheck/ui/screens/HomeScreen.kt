@@ -39,6 +39,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
@@ -53,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.KeyboardType
 import com.ams.gardencheck.data.entities.PlantDisease
 import com.ams.gardencheck.ui.main.MainViewModel
 
@@ -95,37 +97,12 @@ fun HomeScreen(
 fun DisplayPlantDiseases(mv: MainViewModel, nc: NavController) {
     val state by mv.mainViewState.collectAsState()
 
-    // 1. Criamos a lista manual usando exatamente a sua Data Class PlantDisease
-    val staticPlantDiseases = listOf(
-        PlantDisease(
-            diseaseTitle = "Powdery Mildew",
-            imagePath = "ic_logo", // Nome do ficheiro no drawable
-            confidence = "90",
-            description = "Fungal disease that affects a wide range of plants.",
-            createdDate = "Today"
-        ),
-        PlantDisease(
-            diseaseTitle = "Leaf Rust",
-            imagePath = "ic_logo",
-            confidence = "85",
-            description = "Common fungal disease in cereal crops.",
-            createdDate = "Yesterday"
-        ),
-        PlantDisease(
-            diseaseTitle = "Blight",
-            imagePath = "ic_logo",
-            confidence = "72",
-            description = "Rapid and complete chlorosis.",
-            createdDate = "Jan 05, 2026"
-        )
-    )
-
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items( staticPlantDiseases /*state.plantDiseases*/) { plantDisease ->
+        items(state.plantDiseases) { plantDisease ->
             // Card principal para dar o aspeto de elevação e bordas
             Card(
                 modifier = Modifier
@@ -206,14 +183,17 @@ fun DisplayPlantDiseases(mv: MainViewModel, nc: NavController) {
 
 @Composable
 fun SearchBarComponent(mv: MainViewModel, nc: NavController) {
+    // Observamos o estado vindo do ViewModel
     val state by mv.mainViewState.collectAsState()
+
+    // Ferramentas para controlar o teclado e o cursor
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
     TextField(
         value = state.searchText,
         onValueChange = { novoTexto ->
-            // Apenas atualiza o texto para o filtro funcionar
+            // Atualiza o texto no ViewModel e dispara o filtro da lista
             mv.onSearchTextChanged(novoTexto)
         },
         modifier = Modifier
@@ -221,23 +201,51 @@ fun SearchBarComponent(mv: MainViewModel, nc: NavController) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .height(56.dp),
         placeholder = {
-            Text(text = stringResource(R.string.search_diseases), color = Color.Gray)
+            Text(
+                text = stringResource(R.string.search_diseases),
+                color = Color.Gray
+            )
         },
         leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray)
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                tint = Color.Gray
+            )
+        },
+        // Botão "X" para limpar a pesquisa (aparece apenas quando há texto)
+        trailingIcon = {
+            if (state.searchText.isNotEmpty()) {
+                IconButton(onClick = {
+                    mv.onSearchTextChanged("")
+                    focusManager.clearFocus()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Clear search",
+                        tint = Color.Gray
+                    )
+                }
+            }
         },
         shape = RoundedCornerShape(24.dp),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            focusedContainerColor = Color(0xFFE0E0E0), // Cinza um pouco mais escuro como na imagem
-            unfocusedContainerColor = Color(0xFFE0E0E0)
+            focusedContainerColor = Color(0xFFE0E0E0),
+            unfocusedContainerColor = Color(0xFFE0E0E0),
+            cursorColor = Color.Black
         ),
         singleLine = true,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        // Configura o botão "Enter" do teclado como uma lupa de Pesquisa
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search,
+            keyboardType = KeyboardType.Text
+        ),
         keyboardActions = KeyboardActions(
             onSearch = {
+                // Ao clicar na lupa do teclado, escondemos o teclado e removemos o foco
                 keyboardController?.hide()
                 focusManager.clearFocus()
             }
