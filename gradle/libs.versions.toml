@@ -11,6 +11,8 @@ composeBom = "2024.09.00"
 roomCommonJvm = "2.8.4"
 roomKtx = "2.8.4"
 foundationLayout = "1.10.0"
+firebaseAuthKtx = "24.0.1"
+firebaseAuthCommon = "9.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +32,8 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-auth-common = { group = "com.google.firebase", name = "firebase-auth-common", version.ref = "firebaseAuthCommon" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

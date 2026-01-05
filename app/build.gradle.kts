@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -42,7 +45,18 @@ android {
 }
 
 dependencies {
+    // Firebase BOM (Bill of Materials)
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    // Google Play Services for Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
     implementation("androidx.navigation:navigation-compose:2.9.6")
+    implementation("androidx.room:room-ktx:2.8.3")
+    ksp("androidx.room:room-compiler:2.8.3")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -51,9 +65,16 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.room.common.jvm)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.compose.foundation.layout)
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    //implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+
+    // Room
+    //implementation("androidx.room:room-runtime:2.6.1")
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

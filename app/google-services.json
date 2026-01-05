@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "137042257264",
+    "project_id": "gardencheck-8e03a",
+    "storage_bucket": "gardencheck-8e03a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137042257264:android:13d5939b16c39530259bb5",
+        "android_client_info": {
+          "package_name": "com.ams.gardencheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137042257264-j37j6bafi3c2ak7icvla2n0e8opmc4e1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPWKU8PjjPoMw1novrXoB-8oTNRxgEnmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137042257264-j37j6bafi3c2ak7icvla2n0e8opmc4e1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
