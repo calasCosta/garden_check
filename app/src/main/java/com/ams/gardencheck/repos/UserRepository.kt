@@ -19,7 +19,7 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun deleteUser(user: User) = userDao.deleteUser(user)
 
-    suspend fun getLoggedInUser(): User? = userDao.getLoggedInUser()
+    suspend fun getCurrentUser(): User? = userDao.getLoggedInUser()
 
     suspend fun logoutAllUsers() = userDao.logoutAllUsers()
 }

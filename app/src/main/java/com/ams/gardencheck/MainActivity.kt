@@ -1,8 +1,10 @@
 package com.ams.gardencheck
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -186,9 +188,13 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("Third") {
                             ProfileScreen(
+                                viewModel = viewModel,
                                 onLogoutClicked = {
                                     // Sign out from Firebase, Google, and local database
                                     signOut(navController)
+                                },
+                                onDeleteAccountClicked = {
+                                    deleteAccount(navController)
                                 }
                             )
                         }
@@ -240,5 +246,41 @@ class MainActivity : ComponentActivity() {
                 popUpTo(0) // Clear entire back stack
             }
         }
+    }
+
+    private fun deleteAccount(navController: NavHostController) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Account")
+            .setMessage("Delete your local account data? You can still sign in again with Google.")
+            .setPositiveButton("Delete") { dialog, which ->
+                val progressDialog = ProgressDialog(this).apply {
+                    setMessage("Deleting account...")
+                    setCancelable(false)
+                    show()
+                }
+                val currentLocalUser = viewModel.getCurrentUser()
+                if(currentLocalUser != null)
+                    // Only delete from local database
+                    viewModel.deleteAccount(currentLocalUser)
+
+                // Sign out
+                auth.signOut()
+                googleSignInClient.signOut()
+
+                progressDialog.dismiss()
+
+                // Navigate to login
+                navController.navigate("Login") {
+                    popUpTo(0)
+                }
+
+                Toast.makeText(
+                    this,
+                    "Account data deleted",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }

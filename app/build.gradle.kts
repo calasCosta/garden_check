@@ -71,8 +71,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     //implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 
-    // Room
-    //implementation("androidx.room:room-runtime:2.6.1")
+    // Coil for image loading (for profile pictures from URLs)
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
 
     testImplementation(libs.junit)

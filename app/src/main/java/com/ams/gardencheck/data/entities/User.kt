@@ -10,7 +10,7 @@ data class User (
     val email: String,
     val googleId: String, // For Google authentication
     val profilePicture: String? = null, // Optional
-    val createdDate: String,
+    val registeredAt: String,
     val lastLogin: String,
     val isLoggedIn: Boolean = false // track current session
 )

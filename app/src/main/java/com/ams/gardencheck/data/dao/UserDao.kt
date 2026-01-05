@@ -30,7 +30,7 @@ interface UserDao {
     suspend fun getUserByGoogleId(googleId: String): User?
 
     @Query("SELECT * FROM users WHERE isLoggedIn = 1 LIMIT 1")
-    suspend fun getLoggedInUser(): User?
+    suspend fun getLoggedInUser(): User
 
     @Query("UPDATE users SET isLoggedIn = 0")
     suspend fun logoutAllUsers()
