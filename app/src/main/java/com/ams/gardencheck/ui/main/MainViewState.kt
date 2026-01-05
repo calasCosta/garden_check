@@ -1,9 +1,9 @@
-package com.example.books.ui
+package com.ams.gardencheck.ui.main
 
 //import com.ams.gardencheck.Screen
-import com.ams.gardencheck.data.tables.PlantDisease
-import com.ams.gardencheck.data.tables.User
-import com.ams.gardencheck.data.tables.UserPlantDisease
+import com.ams.gardencheck.data.entities.PlantDisease
+import com.ams.gardencheck.data.entities.User
+import com.ams.gardencheck.data.entities.UserPlantDisease
 
 data class MainViewState (
     val plantDiseases: List<PlantDisease> = emptyList(),
@@ -15,8 +15,8 @@ data class MainViewState (
     val openDialogU: Boolean = false,
     val alertStateUP: Boolean = false,
     val openDialogUP: Boolean = false,
-    val editPlantDisease: PlantDisease = PlantDisease(disease_title = "", image_path = "",confidence = "", description = "",createdDate=""),
-    val addPlantDisease: PlantDisease = PlantDisease(disease_title = "", image_path = "",confidence = "", description = "",createdDate=""),
+    val editPlantDisease: PlantDisease = PlantDisease(diseaseTitle = "", imagePath = "",confidence = "", description = "",createdDate=""),
+    val addPlantDisease: PlantDisease = PlantDisease(diseaseTitle = "", imagePath = "",confidence = "", description = "",createdDate=""),
     val editUserPlantDisease: UserPlantDisease = UserPlantDisease(userId = 0, plantDiseaseId = 0),
     val addUserPlantDisease: UserPlantDisease = UserPlantDisease(userId = 0, plantDiseaseId = 0),
     val editUser: User = User(userId = 0, username = "", email = "", createdDate = ""),

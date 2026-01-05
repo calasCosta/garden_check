@@ -2,14 +2,13 @@ package com.ams.gardencheck.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-//import com.ams.gardencheck.Screen
-import com.ams.gardencheck.data.tables.PlantDisease
-import com.ams.gardencheck.data.tables.PlantDiseaseDao
-import com.ams.gardencheck.data.tables.User
-import com.ams.gardencheck.data.tables.UserPlantDisease
-import com.ams.gardencheck.data.tables.UserPlantDiseaseDao
-import com.example.books.ui.MainViewState
-import com.rjcr.library.data.UserDao
+import com.ams.gardencheck.data.dao.PlantDiseaseDao
+import com.ams.gardencheck.data.dao.UserDao
+import com.ams.gardencheck.data.dao.UserPlantDiseaseDao
+import com.ams.gardencheck.data.entities.PlantDisease
+import com.ams.gardencheck.data.entities.User
+import com.ams.gardencheck.data.entities.UserPlantDisease
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
