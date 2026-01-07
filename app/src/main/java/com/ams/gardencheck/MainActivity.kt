@@ -135,7 +135,8 @@ class MainActivity : ComponentActivity() {
                     ?.destination
                     ?.route
 
-                val isMainAppScreen = currentRoute in listOf("First", "Second", "Third")
+                // Show navbar only on "First" and "Third", hide on "Second"
+                val isMainAppScreen = currentRoute in listOf("First", "Third")
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
